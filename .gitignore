@@ -1,1 +1,10 @@
+# .gitignore
+
+# Ignore all env files
+*.env
+
+# Optional: explicitly ignore specific paths too
+server/.env
+client/.env
+
 node_modules
