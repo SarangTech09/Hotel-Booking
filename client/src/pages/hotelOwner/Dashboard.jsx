@@ -78,7 +78,8 @@ const Dashboard = () => {
                          </td>
 
                         <td className='py-3 px-4 text-gray-700 border-t border-gray-300 max-sm:hidden'>
-                          {item.room.roomType}
+                          {item.room?.roomType || 'Room data unavailable'}
+
                         </td>
 
                         <td className='py-3 px-4 text-gray-700 border-t border-gray-300 text-center'>
