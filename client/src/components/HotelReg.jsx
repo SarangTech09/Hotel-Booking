@@ -12,22 +12,41 @@ const HotelReg = () => {
     const [contact, setContact] = useState("")
     const [city, setCity] = useState("")
 
-    const onSubmitHandler = async ()=>{
-        try {
-            event.preventDefault();
-            const {data} = await axios.post(`/api/hotels/`, {name, contact, address, city}, {headers: {Authorization: `Bearer ${await getToken()}`}})
+    const onSubmitHandler = async (event) => {
+  event.preventDefault();
 
-            if(data.success){
-                toast.success(data.message)
-                setIsOwner(true);
-                setShowHotelReg(false);
-            }else{
-                toast.error(data.message)
-            }
-        } catch (error) {
-            toast.error(error.message)
-        }
+  try {
+    const token = await getToken();
+
+    const { data } = await axios.post(
+      "/api/hotels",
+      {
+        name,
+        contact,
+        address,
+        city,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (data.success) {
+      toast.success(data.message);
+      setIsOwner(true);
+      setShowHotelReg(false);
+    } else {
+      toast.error(data.message);
     }
+  } catch (error) {
+    toast.error(error.response?.data?.message || error.message);
+    console.error(error);
+  }
+};
+
 
   return (
     <div onClick={()=> setShowHotelReg(false)} className='fixed top-0 bottom-0 left-0 right-0 z-100 flex items-center justify-center bg-black/70'>

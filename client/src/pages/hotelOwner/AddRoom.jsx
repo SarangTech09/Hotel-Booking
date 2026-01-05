@@ -51,8 +51,8 @@ const AddRoom = () => {
           images[key] && formData.append('images', images[key])
         })
 
-        const {data} = await axios.post('/api/rooms/', formData, {headers: {Authorization: `Bearer ${await getToken()}`}})
-
+        const {data} = await axios.post('/api/rooms/', formData, {withCredentials: true}, {headers: {Authorization: `Bearer ${await getToken()}`}})
+        console.log(data);
         if(data.success){
           toast.success(data.message)
           setInputs({
@@ -70,10 +70,12 @@ const AddRoom = () => {
           setImages({1: null, 2: null, 3: null, 4: null})
         }else{
           toast.error(data.message)
+          console.error(data)
         }
 
       } catch (error) {
           toast.error(error.message)
+          console.error(error)
 
       }finally{
         setLoading(false);
