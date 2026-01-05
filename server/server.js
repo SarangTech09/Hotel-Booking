@@ -33,7 +33,31 @@ connectDB()
 connectCloudinary();
 
 const app = express()
-app.use(cors()) // enable cross-origin resourse sharing
+// enable cross-origin resourse sharing
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://yourdomain.com",
+  "https://quick-stay-delta.vercel.app"
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // allow requests with no origin (mobile apps, curl, postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 
 //Middleware
 app.use(express.json())
