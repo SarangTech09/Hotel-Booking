@@ -10,6 +10,9 @@ import connectCloudinary from "./configs/cloudinary.js";
 import roomRouter from "./routes/roomRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
 // database connection
 connectDB()
   .then(() => {
@@ -25,14 +28,14 @@ connectDB()
   })
   .catch((error) => {
     console.error(
-     "❌Error in connecting to MongoDB Database :" + error.message
+     "❌Error in connecting to MongoDB Database :" + error
     );
     process.exit(1); // exit the process with an error status code 1
   });
 // cloudinary connection    
 connectCloudinary();
 
-const app = express()
+
 // enable cross-origin resourse sharing
 const allowedOrigins = [
   "http://localhost:3000",
@@ -72,6 +75,6 @@ app.use('/api/hotels', hotelRouter)
 app.use('/api/rooms', roomRouter)
 app.use('/api/bookings', bookingRouter)
 
-const PORT = process.env.PORT || 3000;
+
 
 app.listen(PORT, ()=> console.log(`server running on port ${PORT}`));
