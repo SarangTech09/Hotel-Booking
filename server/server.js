@@ -10,7 +10,26 @@ import connectCloudinary from "./configs/cloudinary.js";
 import roomRouter from "./routes/roomRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 
+// database connection
 connectDB()
+  .then(() => {
+    console.log(
+      "Connected to MongoDB Database successfully ✅ ✅ "
+    );
+    server.listen(PORT, () => {
+      console.log(
+        
+            "🚀 Server is running on port " + PORT + " 🚀"
+      );
+    });
+  })
+  .catch((error) => {
+    console.error(
+     "❌Error in connecting to MongoDB Database :" + error.message
+    );
+    process.exit(1); // exit the process with an error status code 1
+  });
+// cloudinary connection    
 connectCloudinary();
 
 const app = express()
